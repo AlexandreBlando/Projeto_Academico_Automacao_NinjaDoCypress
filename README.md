@@ -1,10 +1,9 @@
 # 🥋 WebDojo
 
-![WebDojo Cover](.github/cover.png)
 
 ## 🚀 Sobre o Projeto
 
-O **WebDojo** é um aplicativo exclusivo para os alunos do **Curso Ninja do Cypress**, ministrado pelo mestre **Fernando Papito**! 🥷💻 Ele foi criado para ser um **campo de treinamento prático**, onde os alunos podem aprimorar suas habilidades em automação de testes com desafios e exercícios focados no **Cypress**.
+O **WebDojo** é um aplicativo exclusivo para os alunos do **Curso Ninja do Cypress**, ministrado pelo mestre **Fernando Papito**! 🥷💻 Durante o curso, tive a oportunidade de aprimorar minhas habilidades em automação de testes por meio de desafios práticos e exercícios aplicados a situações reais. O projeto WebDojo foi o ambiente ideal para colocar em prática conceitos aprendidos durante todo o curso.
 
 🛠️ Tecnologias Utilizadas
 
@@ -18,22 +17,130 @@ O **WebDojo** é um aplicativo exclusivo para os alunos do **Curso Ninja do Cypr
 - [x] PostgreSQL 🗄 (Banco de dados relacional)
 - [x] Use Bruno 🔌 (Cliente de API para testes de requisições)
 
-## 📖 Como Usar
 
-As instruções detalhadas de instalação e uso do **WebDojo** estão disponíveis dentro do **Curso Ninja do Cypress**.
+## ⚙️ Configuração do Ambiente
 
-🔗 **Acesse o curso e seja Ninja da Automação em Cypress!** 👉 [ninjadocypress.com.br](https://ninjadocypress.com.br)
+### 📋 Pré-requisitos
 
-## ⚠️ Contribuição
+Antes de executar os testes, é necessário ter instalado em sua máquina:
 
-O **WebDojo** é um ambiente **exclusivo** para os alunos do **Curso Ninja do Cypress**, e por isso, **não aceita contribuições externas**.
+- [Node.js](https://nodejs.org/) (versão 16 ou superior)
+- [npm](https://www.npmjs.com/)
+- [Cypress](https://www.cypress.io/)
 
-📢 Para suporte e dúvidas, utilize os canais oficiais do curso!
+### 📦 Instalação
+
+Clone o repositório e instale as dependências:
+
+```bash
+git clone https://github.com/seu-usuario/webdojo.git
+cd webdojo
+npm install
+```
+
+---
+
+## 🚀 Execução da Aplicação Webdojo
+
+A aplicação **Webdojo** está contida no mesmo repositório.  
+Para executá-la localmente, utilize o comando:
+
+```bash
+npm run dev
+```
+
+Isso iniciará o servidor local na porta **3000**, por padrão.  
+Certifique-se de que a aplicação esteja rodando antes de iniciar os testes.
+
+## ⚠️ Envolvidos
+
+Mestre Fernando Papito
+Aluno: Blando Alexandre Silva Santos
 
 ## 🔒 Licença
 
 Este projeto é **exclusivo para alunos** do **Curso Ninja do Cypress**. 🚫 O compartilhamento ou distribuição sem autorização é proibido.
 
-------
 
-💙 Feito com dedicação e muito café por **Fernando Papito** e a equipe do **Curso Ninja do Cypress**. 🚀🔥
+
+## 🧠 Exemplo de Teste: `consultancyMassadeTeste.cy.js`
+
+Abaixo está um exemplo de teste automatizado da validação de campos obrigatorios no formluario de consultoria com boas práticas do Cypress:
+
+```javascript
+/// <reference types="cypress" />
+
+describe('Formlulário de Consultoria', () => {
+
+    beforeEach(() => {
+        cy.login()
+        cy.goTo('Formulários', 'Consultoria')
+    })
+
+   it('Validar Campos Obrigatorios', () => {
+
+        // Envia o formulário sem preencher os campos obrigatórios
+        cy.submitConsultancyForm()
+
+        //constante requiredFields com Label e Message
+        const requiredFields = [
+            { label: 'Nome Completo', message: 'Campo obrigatório' },
+            { label: 'Email *', message: 'Campo obrigatório' },
+            { label: 'termos de uso', message: 'Você precisa aceitar os termos de uso' }
+        ]
+        //Loop em quanto possuir label e massage.
+        requiredFields.forEach(({ label, message }) => {
+            cy.contains('label', label)
+                .parent()
+                .find('p')
+                .should('be.visible')
+                .and('have.text', message)
+                //validando css
+                .and('have.class', 'text-red-400')
+                .and('have.css', 'color', 'rgb(248, 113, 113)')
+        })
+    })
+})    
+```
+
+## 🧾 Exemplos de Dados (Fixtures)
+
+Os arquivos dentro da pasta `cypress/fixtures` contêm dados utilizados nos testes automatizados.  
+Exemplos:
+
+- `cep.json` → dados de CEP para validações de endereço.  
+- `consultancy.json` → dados de consultorias fictícias.  
+- `Carta_Apresentacao.pdf` → arquivo usado para upload em testes.
+
+## 🧪 Execução dos Testes
+
+### 🔹 Rodar todos os testes (modo headless)
+
+```bash
+npm run test
+```
+
+### 🔹 Rodar os testes de login (desktop)
+
+```bash
+npm run test:login
+```
+
+### 🔹 Rodar os testes de login (mobile)
+
+```bash
+npm run test:login:mobile
+```
+
+### 🔹 Rodar testes no modo interativo
+
+```bash
+npm run test:ui
+```
+
+---
+
+## 🧱 Conclusão
+
+Este projeto me forneceu uma base sólida para automação de testes E2E da aplicação **Webdojo**, garantindo padronização, escalabilidade e fácil manutenção.  
+Os testes são modulares, reutilizáveis e seguem boas práticas recomendadas pela comunidade Cypress.
