@@ -26,28 +26,55 @@
 
 // Biblioteca (realHover)
 import 'cypress-real-events'
+import './actions/consultancy.actions'
+import { getTodayFormattedDate } from './utils'
 
-Cypress.Commands.add('start', ()=>{
-    cy.viewport(1440,900)
-    cy.visit('http://localhost:3000')
+Cypress.Commands.add('start', () => {
+    cy.visit('/')
 
 })
 
-Cypress.Commands.add('submitLogin', (email, senha)=> {
-    cy.get('#email').type(email)    
+Cypress.Commands.add('submitLogin', (email, senha) => {
+    cy.get('#email').type(email)
     cy.get('#password').type(senha)
 
-    cy.contains('button', 'Entrar').click() 
+    cy.contains('button', 'Entrar').click()
 })
 
 
-Cypress.Commands.add('goTo',(buttonName, pageTitle) => {
-        cy.contains('button', buttonName)
-            .should('be.visible')
-            .click()
+Cypress.Commands.add('goTo', (buttonName, pageTitle) => {
+    cy.contains('button', buttonName)
+        .should('be.visible')
+        .click()
 
-        cy.contains('h1', pageTitle)
-            .should('be.visible')
+    cy.contains('h1', pageTitle)
+        .should('be.visible')
 
 })
+//Helppers
+Cypress.Commands.add('login', (ui = false) => {
+
+    if (ui == true) {
+
+        cy.start()
+        cy.submitLogin('papito@webdojo.com', 'katana123')
+    } else {
+
+        const token = 'e1033d63a53fe66c0fd3451c7fd8f617'
+        const loginDate = getTodayFormattedDate()
+
+        cy.setCookie('login_date', loginDate)
+
+        cy.visit('/dashboard', {
+            onBeforeLoad(win) {
+                win.localStorage.setItem('token', token)
+            }
+        })
+
+    }
+
+
+})
+
+
 

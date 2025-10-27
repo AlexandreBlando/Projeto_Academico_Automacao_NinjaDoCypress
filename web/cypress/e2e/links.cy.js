@@ -1,8 +1,8 @@
 describe ('Links abrindo nova guia/janela', ()=> {
 
     it('Validando o atributo do link do Instagram', ()=> {
-         cy.start()
-         cy.submitLogin('papito@webdojo.com', 'katana123')
+         cy.login()
+        
 
          cy.get('[data-cy="instagram-link"]')
          .should('have.attr', 'href', 'https://www.instagram.com/qapapito')
@@ -10,8 +10,7 @@ describe ('Links abrindo nova guia/janela', ()=> {
     })
         //Utilizei para validar links/termos dentro da aplicação e não redirecionando a outra empresa/site
     it('Acessa link e termos de uso removendo o target blank', () =>{
-         cy.start()
-         cy.submitLogin('papito@webdojo.com', 'katana123')
+         cy.login()
 
          cy.contains('Formulários').click()
 

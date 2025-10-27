@@ -6,6 +6,9 @@ describe('iFrame', () => {
         cy.submitLogin('papito@webdojo.com', 'katana123')
 
         cy.contains('button', 'Video').click()
+        
+        //dellay do Iframe que pode ocorrer as vezes
+        cy.wait(3000)
 
         cy.get('iframe[title="Video Player"]')
             .should('exist')

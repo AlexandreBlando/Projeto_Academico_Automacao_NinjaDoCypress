@@ -1,10 +1,13 @@
 describe('Formlulário de Consultoria', () => {
 
-    it('Deve solicitar consultoria individual', () => {
-        cy.start()
-        cy.submitLogin('papito@webdojo.com', 'katana123')
-
+    beforeEach(()=>{
+        cy.login()
         cy.goTo('Formulários', 'Consultoria')
+
+    })
+
+    it('Deve solicitar consultoria individual', () => {
+
         cy.get('Input[placeholder="Digite seu nome completo"]').type('Blando Alexandre')
         cy.get('input[placeholder="Digite seu email"]').type('Blandoalexandress@hotmail.com')
         cy.get('input[placeholder="(00) 00000-0000"]')
@@ -102,9 +105,6 @@ describe('Formlulário de Consultoria', () => {
 
     })
     it('Validar Campos Obrigatorios', () => {
-        cy.start()
-        cy.submitLogin('papito@webdojo.com', 'katana123')
-        cy.goTo('Formulários', 'Consultoria')
         cy.contains('button', 'Enviar formulário')
             .click()
 

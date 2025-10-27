@@ -1,0 +1,43 @@
+{
+  "personal": {
+    "name": "Blando Alexandre",
+    "email": "Blandoalexandress@hotmail.com",
+    "phone": "71 98148-9637",
+    "consultancyType": "Individual",
+    "personType": "cpf",
+    "document": "04668522589",
+    "discoveryChannels": [
+      "Instagram",
+      "YouTube",
+      "LinkedIn",
+      "Udemy"
+    ],
+    "file": "./cypress/fixtures/Carta_Apresentacao.pdf",
+    "description": "Realizando Automatização - Realizando Automação",
+    "techs": [
+      "Phyton",
+      "XML",
+      "Cypress",
+      "SQL Server"
+    ],
+    "terms": true
+  },
+  
+  "company": {
+    "name": "Blando Alexandre",
+    "email": "Blandoalexandress@hotmail.com",
+    "phone": "71 98148-9637",
+    "consultancyType": "In Company",
+    "personType": "cnpj",
+    "document": "33810761000168",
+    "discoveryChannels": [
+      "LinkedIn"
+    ],
+    "file": "./cypress/fixtures/Carta_Apresentacao.pdf",
+    "description": "Realizando Automatização - Realizando Automação",
+    "techs": [
+      "Cypress"
+    ],
+    "terms": true
+  }
+}
