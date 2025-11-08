@@ -45,6 +45,50 @@ describe('PUT /api/users/:id', () => {
         })
     })
 
+    context('Quando o ID Não existe', ()=>{
+        
+        let userId
+
+        const originalUser = {
+            name: 'Aioros (Sagitário)',
+            email: 'Aioros.sagittarius@teste.com',
+            password: 'put123456'
+        }
+
+        const updatedUser = {
+            name: '(Sagitário) Aioros ',
+            email: 'Aioros.sagittarius@Validateste.com',
+            password: 'put123456'
+        }
+
+        before(() => {
+            cy.task('deleteUser', originalUser.email)
+            cy.task('deleteUser', updatedUser.email)
+
+            cy.postUser(originalUser).then(response => {
+                cy.log(response.body.user.id)
+                userId = response.body.user.id
+            })
+             cy.task('deleteUser', originalUser.email)
+        })
+        //Tenta deletar um usuario não existente
+        it('Deve retornar 404 e user not found', () => {
+            cy.api({
+                method: 'PUT',
+                url: 'http://localhost:3333/api/users/' + userId,
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: updatedUser,
+                failOnStatusCode: false
+            }).then(response => {
+                expect(response.status).to.eq(404)
+                expect(response.body.error).to.eq('User not found.')
+            })
+        })
+
+    })
+
 
     context('Campos Obrigatorios', () => {
 
