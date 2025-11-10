@@ -5,10 +5,7 @@ describe('Expert', () => {
   })
 
   it('Deve manipular o valor de um campo', () => {
-    cy.log('todo')
-
     cy.get('#email').invoke('val', 'blando@teste.com.br ')
-
     cy.get('#password').invoke('attr', 'name', 'senha')
 
     cy.contains('button', 'Entrar')
@@ -21,7 +18,7 @@ describe('Expert', () => {
 
   })
 
-  it.only('Não deve logar com a Senha Incorreta', () => {
+  it('Não deve logar com a Senha Incorreta', () => {
     cy.submitLogin('papito@webdojo.com', 'Teste123')
 
     /* capturando informação pro cy.get mais a baixo
@@ -47,6 +44,22 @@ describe('Expert', () => {
     cy.get('@toast')
       .should('not.exist')
 
+  })
+
+  it.only('Simulando a tecla TAB com cy.press()', ()=>{
+    cy.log('todo') 
+
+    //pressiona tab e valida se o foco está no e-mail
+    cy.get('body').press('Tab')
+    cy.focused().should('have.attr', 'id', 'email')
+    
+    //Preenche o e-mail / pressiona tab / valida se o foco está no senha
+    cy.get('#email').type('papito@webdojo.com').press('Tab')
+    cy.focused().should('have.attr', 'id', 'password')
+    //Preenche Password e pressiona o Enter teclado
+     cy.get('#password').type('katana123{Enter}')
+
+   
   })
 
 })
