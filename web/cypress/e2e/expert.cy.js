@@ -1,3 +1,6 @@
+import { faker } from '@faker-js/faker'
+import _ from 'lodash'
+
 describe('Expert', () => {
 
   beforeEach(() => {
@@ -29,12 +32,13 @@ describe('Expert', () => {
           cy.writeFile('cypress/downloads/page.html', doc.documentElement.outerHTML)
         })
   */  // .title = div[class=title]  
+
     cy.get('[data-sonner-toaster=true]')
       //Facilitador para os proximos cy.get que utilizam o campo acima.
       .as('toast')
       .should('be.visible')
 
-      //utilizando facilitador
+    //utilizando facilitador
     cy.get('@toast')
       .find('.title')
       .should('have.text', 'Acesso negado! Tente novamente.')
@@ -46,20 +50,37 @@ describe('Expert', () => {
 
   })
 
-  it.only('Simulando a tecla TAB com cy.press()', ()=>{
-    cy.log('todo') 
+  it('Simulando a tecla TAB com cy.press()', () => {
+    cy.log('todo')
 
     //pressiona tab e valida se o foco está no e-mail
     cy.get('body').press('Tab')
     cy.focused().should('have.attr', 'id', 'email')
-    
+
     //Preenche o e-mail / pressiona tab / valida se o foco está no senha
     cy.get('#email').type('papito@webdojo.com').press('Tab')
     cy.focused().should('have.attr', 'id', 'password')
     //Preenche Password e pressiona o Enter teclado
-     cy.get('#password').type('katana123{Enter}')
+    cy.get('#password').type('katana123{Enter}')
 
-   
+
+  })
+
+  it.only('Deve realizar uma carga de dados fake', () => {
+    cy.log('todo')
+
+    _.times(5, () => {
+
+      const name = faker.person.fullName()
+      const email = faker.internet.email()
+      const password = 'pwd123'
+      
+      cy.log(name)
+      cy.log(email)
+    })
+
+
+
   })
 
 })

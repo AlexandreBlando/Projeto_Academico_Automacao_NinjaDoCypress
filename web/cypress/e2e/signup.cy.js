@@ -1,28 +1,43 @@
-describe('Cadastro', () => {
+
+import { faker } from '@faker-js/faker'
+import _ from 'lodash'
+
+describe('Cadastro de Usuários', () => {
     beforeEach(() => {
         cy.goToSignup()
 
-       cy.intercept('POST', 'http://localhost:3333/api/users/register',{
+        cy.intercept('POST', 'http://localhost:3333/api/users/register', {
             statusCode: 201,
             body: {
-            message: 'Usuário cadastrado com sucesso'
-        }
-    }).as('postSignup')
-    
-})
+                message: 'Usuário cadastrado com sucesso'
+            }
+        }).as('postSignup')
 
-it('Deve cadastrar um novo usuario', () => {
+    })
 
-    cy.get('#name').type('Blando Alexandre')
-    cy.get('#email').type('Blandoalexandress@hotmail.com')
-    cy.get('#password').type('123456')
+    const total = 5
 
-    cy.contains('button', 'Criar conta').click()
+    _.times(total, (i) => {
+        it(`Deve cadastrar um novo usuario. Teste ${i + 1}`, () => {
 
-    cy.wait('@postSignup')
+            //geração de dados aleatorios pelo Faker
+            const name = faker.person.fullName()
+            const email = faker.internet.email()
 
-    cy.contains('Conta criada com sucesso!')
-    .should('be.visible')
-})
+            cy.log(`Usuário ${i + 1}: ${name} - ${email}`)
+
+            cy.get('#name').type(name)
+            cy.get('#email').type(email)
+            cy.get('#password').type('Teste12345')
+
+            cy.contains('button', 'Criar conta').click()
+
+            //Força aguardar o retorno da API
+            cy.wait('@postSignup')
+
+            cy.contains('Conta criada com sucesso!')
+                .should('be.visible')
+        })
+    })
 
 })
