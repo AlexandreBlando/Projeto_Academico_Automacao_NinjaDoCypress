@@ -1,14 +1,6 @@
 import { getTodayFormattedDate } from "../support/utils";
 describe('Login', () => {
 
-  //funcão Gerada pelo chatgpt 
-  function getTodayFormattedDate() {
-    const today = new Date();
-    const day = String(today.getDate()).padStart(2, '0');
-    const month = String(today.getMonth() + 1).padStart(2, '0'); // months start at 0
-    const year = today.getFullYear();
-    return `${day}/${month}/${year}`;
-  }
 
 
   it.only('Deve logar com sucesso', () => {
@@ -23,12 +15,14 @@ describe('Login', () => {
       .should('be.visible')
       .and('have.text', 'Olá QA, esse é o seu Dojo para aprender Automação de Testes.')
 
+      // Confere a existência do cookie de data de login 
     cy.getCookie('login_date').should('exist')
 
+    // Validação que o cookie contém a data atual
     cy.getCookie('login_date').should((cookie) => {
       expect(cookie.value).to.eq(getTodayFormattedDate())
     })
-
+      //Validação do token no padrão hexadecimal de 32 caracteres
     cy.window().then((win)=>{
      const token = win.localStorage.getItem('token')
      expect (token).to.match(/^[a-fA-F0-9]{32}$/)
